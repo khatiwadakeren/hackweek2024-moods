@@ -1,0 +1,8 @@
+{
+  "ticket": {
+    "comment": {
+      "body": "Hello Sentry team, I am using Sentry with Next.js in Tauri, and I have migrated my Tauri v1 to Tauri v2 RC. how can i get this to work"
+    },
+    "subject": "Sentry throws untrackable errors in Tauri v2 129913"
+  }
+}

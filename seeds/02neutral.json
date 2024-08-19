@@ -1,0 +1,8 @@
+{
+  "ticket": {
+    "comment": {
+      "body": "Hi Support Team, We have integrated Sentry with Azure and enabled SSO. How can I create a user and disable/delete an account from Sentry?"
+    },
+    "subject": "APIs to create and disable an account in the app 129911"
+  }
+}
