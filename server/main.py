@@ -1,5 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+search_term = "angry"
 
 app = FastAPI()
 
@@ -9,6 +15,7 @@ origins = [
     "http://127.0.0.1",
     "http://127.0.0.1:8000",
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,3 +29,6 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
+@app.get("/api/gif")
+async def gif():
+    print(os.getenv("giphy_api_key"))
