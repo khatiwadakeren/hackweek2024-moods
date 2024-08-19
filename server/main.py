@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import httpx
 import os
-
+import random
 load_dotenv()
 
 search_term = "angry"
@@ -47,12 +47,13 @@ async def search_giphy(q: str = Query(default=search_term)):
         response_data = response.json()
 
         if response.status_code == 200 and "data" in response_data:
-            if response_data["data"]:
-                embed_url = response_data["data"][0].get("embed_url")
+            gifs = response_data["data"]
+            if gifs:
+                random.shuffle(gifs)
+                embed_url = gifs[0].get("embed_url")
                 if embed_url:
                     return {"embed_url": embed_url}
                 
                 
     # need to return a random list rather than just top down
 
-    
