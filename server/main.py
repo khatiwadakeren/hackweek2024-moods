@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import httpx
 import os
 import random
+
 load_dotenv()
 
 search_term = "angry"
