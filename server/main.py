@@ -55,5 +55,3 @@ async def search_giphy(q: str = Query(default=search_term)):
                     return {"embed_url": embed_url}
                 
                 
-    # need to return a random list rather than just top down
-
