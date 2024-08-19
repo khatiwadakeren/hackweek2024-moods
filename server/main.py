@@ -1,11 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+import httpx
 import os
 
 load_dotenv()
 
 search_term = "angry"
+giphy_api_key = os.getenv("giphy_api_key")
 
 app = FastAPI()
 
@@ -29,6 +31,28 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
+
+
 @app.get("/api/gif")
-async def gif():
-    print(os.getenv("giphy_api_key"))
+async def search_giphy(q: str = Query(default=search_term)):
+    api_url = f"https://api.giphy.com/v1/gifs/search"
+    params = {
+        "api_key": giphy_api_key,
+        "q": q,
+        "limit": 10,  # You can adjust the limit as needed
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(api_url, params=params)
+        response_data = response.json()
+
+        if response.status_code == 200 and "data" in response_data:
+            if response_data["data"]:
+                embed_url = response_data["data"][0].get("embed_url")
+                if embed_url:
+                    return {"embed_url": embed_url}
+                
+                
+    # need to return a random list rather than just top down
+
+    
