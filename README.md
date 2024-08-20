@@ -23,6 +23,7 @@ The **User Mood Detector** is a tool designed to help support agents quickly ass
 
 ### Step 3: Set Up the Server
 
+Create `.env` file with `giphy_api_key=`
 `cd server`  
 `python3 -m venv venv`  
 `source venv/bin/activate`  
