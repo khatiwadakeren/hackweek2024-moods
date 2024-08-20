@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Query # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from dotenv import load_dotenv # type: ignore
+from transformers import pipeline
+from pydantic import BaseModel
 import httpx # type: ignore
 import os
 import random
@@ -10,7 +12,19 @@ load_dotenv()
 search_term = "angry"
 giphy_api_key = os.getenv("giphy_api_key")
 
+# Load the setiment detection model in case we want to use it later
+sentiment_model = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+
+# Load the emotion detection model
+emotion_model = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=False)
+
+
 app = FastAPI()
+
+# Defines a model for the request body
+class TicketRequest(BaseModel):
+    ticket_body: str
+
 
 origins = [
     "http://localhost",
@@ -55,4 +69,20 @@ async def search_giphy(q: str = Query(default=search_term)):
                 if embed_url:
                     return {"embed_url": embed_url}
                 
-                
+# This was just me playing around with the API
+@app.post("/api/sentiment")
+async def analyze_sentiment(request: TicketRequest):
+    # Analyze sentiment
+    result = sentiment_model(request.ticket_body)[0]
+    sentiment = result['label'].lower()
+
+    return {"sentiment": sentiment}
+
+# This is the endpoint that we will use in the frontend
+@app.post("/api/detect-mood")
+async def analyze_emotion(request: TicketRequest):
+    # Analyze emotion
+    result = emotion_model(request.ticket_body)[0]
+    emotion = result['label'].lower() 
+
+    return {"emotion": emotion}
