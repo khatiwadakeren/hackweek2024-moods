@@ -1,7 +1,7 @@
-from fastapi import FastAPI, Query
-from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-import httpx
+from fastapi import FastAPI, Query # type: ignore
+from fastapi.middleware.cors import CORSMiddleware # type: ignore
+from dotenv import load_dotenv # type: ignore
+import httpx # type: ignore
 import os
 import random
 
