@@ -1,5 +1,3 @@
-# hackweek2024-moods
-
 # hackweek2024-moods User Mood Detector
 
 ## Overview
