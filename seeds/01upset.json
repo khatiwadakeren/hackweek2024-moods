@@ -3,6 +3,6 @@
     "comment": {
       "body": "Need additiona attention on an issue Our security department is getting upset at us for having dependencies on abandoned PHP libraries. This may result in us being forced to drop Sentry if it cannot be resolved."
     },
-    "subject": "PHP SDK depends on abandoned library 89702"
+    "subject": "abandoned library used in sdk 89702"
   }
 }
