@@ -22,7 +22,9 @@ The **User Mood Detector** is a tool designed to help support agents quickly ass
 
 ### Step 3: Set Up the Server
 `cd server`  
-`source app/bin/activate`
+`python3 -m venv venv`
+`source venv/bin/activate`
+`pip install -r requirements.txt`
 
 ## Running the app
 Start the server using `uvicorn main:app`.  
