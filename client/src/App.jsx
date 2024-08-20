@@ -94,7 +94,8 @@ function App() {
             allowFullScreen
             title="GIF"
           ></iframe>
-          <p style={{ marginTop: "20px" }}>Ticket Body: {ticketBody}</p>
+          {/* no body for now */}
+          {/* <p style={{ marginTop: "20px" }}>Ticket Body: {ticketBody}</p> */}
         </div>
       )}
     </div>
