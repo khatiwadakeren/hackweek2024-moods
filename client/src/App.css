@@ -31,9 +31,19 @@
   position: absolute;
   top: 0;
   right: 0;
-  /* You can also add padding or margin if needed */
-  padding: 10px;
+  width: 300px; /* 2x2 square */
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px; /* Adjust based on desired text size */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: rotate(45deg); /* Rotates the container 45 degrees */
 }
+
+
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
