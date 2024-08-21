@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import data01Happy from "../../seeds/01happy.json";
 import data01Neutral from "../../seeds/01neutral.json";
@@ -12,7 +12,7 @@ import data03Upset from "../../seeds/03upset.json";
 import dataHappy from "../../seeds/happy.json";
 import dataNeutral from "../../seeds/neutral.json";
 import dataUpset from "../../seeds/upset.json";
-
+import Motivation from "./components/Motivation";
 const seeds = [
   data01Happy,
   data01Neutral,
@@ -81,7 +81,7 @@ function App() {
     <div>
       <h1>Moody Monitor</h1>
       <button onClick={postTicketData}>Anyone got tickets?</button>
-
+      <Motivation />
       {response && (
         <div>
           <h2>Ticket Title: {ticketTitle}</h2>
