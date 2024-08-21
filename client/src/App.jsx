@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import TicketDisplay from "./components/TicketDisplay";
 import data01Happy from "../../seeds/01happy.json";
 import data01Neutral from "../../seeds/01neutral.json";
 import data01Upset from "../../seeds/01upset.json";
@@ -35,8 +36,6 @@ function getRandomTicket() {
 
 function App() {
   const [response, setResponse] = useState(null); // State to store the API response
-  const [ticketTitle, setTicketTitle] = useState(""); // State to store the ticket title
-  const [ticketBody, setTicketBody] = useState(""); // State to store the ticket body
 
   const postTicketData = async () => {
     const url = "http://127.0.0.1:8000/api/detect-mood";
@@ -45,10 +44,8 @@ function App() {
       const randomTicket = getRandomTicket();
       console.log("Ticket:", randomTicket);
 
-      const title = randomTicket.ticket.subject;
-      const bodyText = randomTicket.ticket.comment.body;
       const payload = {
-        ticket_body: bodyText,
+        ticket_body: randomTicket.ticket.comment.body,
       };
 
       console.log("Payload:", payload); // Ensure this logs the correct format
@@ -68,10 +65,12 @@ function App() {
       const result = await response.json();
       console.log("It worked: ", result);
 
-      // Update the state with the response, title, and body
-      setResponse(result);
-      setTicketTitle(title);
-      setTicketBody(bodyText);
+      // Update the state with the response
+      setResponse({
+        ...result,
+        ticketTitle: randomTicket.ticket.subject,
+        ticketBody: randomTicket.ticket.comment.body,
+      });
     } catch (error) {
       console.error("WHOMP: ", error);
     }
@@ -80,23 +79,15 @@ function App() {
   return (
     <div>
       <h1>Moody Monitor</h1>
-      <button onClick={postTicketData}>Anyone got tickets?</button>
+      <button onClick={postTicketData}>Get your next ticket!</button>
 
       {response && (
-        <div>
-          <h2>Ticket Title: {ticketTitle}</h2>
-          <h3>Emotion Detected: {response.emotion}</h3>
-          <iframe
-            src={response.embed_url}
-            width="480"
-            height="270"
-            frameBorder="0"
-            allowFullScreen
-            title="GIF"
-          ></iframe>
-          {/* no body for now */}
-          {/* <p style={{ marginTop: "20px" }}>Ticket Body: {ticketBody}</p> */}
-        </div>
+        <TicketDisplay
+          ticketTitle={response.ticketTitle}
+          ticketBody={response.ticketBody}
+          embedUrl={response.embed_url}
+          emotion={response.emotion}
+        />
       )}
     </div>
   );

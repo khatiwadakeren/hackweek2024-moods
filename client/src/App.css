@@ -40,3 +40,55 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Common button styles */
+button {
+  background-color: #007bff; /* Blue button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Ticket Display Container */
+.ticket-display-container {
+  background-color: #f9f9f9; /* Light background color */
+  color: #333; /* Darker text color for contrast */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto; /* Center the component horizontally */
+  text-align: center; /* Center all text inside the container */
+}
+
+.ticket-title-container,
+.emotion-container {
+  margin-bottom: 20px;
+}
+
+.ticket-title-label,
+.emotion-label {
+  font-size: 16px; /* Smaller font size for labels */
+  color: #555; /* Gray color for less emphasis */
+}
+
+.ticket-title-container .ticket-title-text,
+.emotion-container .emotion-text {
+  font-size: 25px; /* Increased font size for the title and emotion */
+  font-weight: bold; /* Bold font for emphasis */
+  color: #333; /* Darker color */
+}
+
+.ticket-display-container p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-top: 20px;
+}
