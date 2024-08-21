@@ -3,6 +3,6 @@
     "comment": {
       "body": "In our Angular app we are creating source maps which are then uploaded to Sentry successfully. However stack trace is still minified."
     },
-    "subject": "Source Maps 126543"
+    "subject": "Source Maps"
   }
 }
