@@ -37,7 +37,7 @@ function getRandomTicket() {
 
 function App() {
   const [response, setResponse] = useState(null); // State to store the API response
-  const [motivationKey, setMotivationKey] = useState(0); 
+  const [motivationKey, setMotivationKey] = useState(0);
   const postTicketData = async () => {
     const url = "http://127.0.0.1:8000/api/detect-mood";
 
@@ -73,8 +73,7 @@ function App() {
         ticketBody: randomTicket.ticket.comment.body,
       });
 
-      setMotivationKey(prevKey => prevKey + 1);
-
+      setMotivationKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.error("WHOMP: ", error);
     }
@@ -82,9 +81,8 @@ function App() {
 
   return (
     <div>
-      <h1>Moody Monitor</h1>
+      <h1 className="moody-monitor-title">Ticket Moody Monitor</h1>{" "}
       <button onClick={postTicketData}>Anyone got tickets?</button>
-
       {response && (
         <TicketDisplay
           ticketTitle={response.ticketTitle}
@@ -93,7 +91,6 @@ function App() {
           emotion={response.emotion}
         />
       )}
-
       {response && <Motivation key={motivationKey} />}
     </div>
   );
