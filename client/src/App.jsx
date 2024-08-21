@@ -13,6 +13,7 @@ import dataHappy from "../../seeds/happy.json";
 import dataNeutral from "../../seeds/neutral.json";
 import dataUpset from "../../seeds/upset.json";
 import Motivation from "./components/Motivation";
+
 const seeds = [
   data01Happy,
   data01Neutral,
