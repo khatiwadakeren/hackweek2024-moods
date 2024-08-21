@@ -39,11 +39,27 @@
   text-align: center;
   font-weight: bold;
   font-size: 30px; /* Adjust based on desired text size */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transform: rotate(45deg); /* Rotates the container 45 degrees */
+  background-color: #ffeb3b; /* Bright yellow background */
+  color: #000000; /* Black text color for high contrast */
+  box-shadow: 0 0 20px rgba(255, 235, 59, 0.7), 0 0 30px rgba(255, 193, 7, 0.7);
+  transform: rotate(45deg);
+  border-radius: 15px; /* Smooth rounded corners */
+  border: 4px solid #ffc107; /* Bright orange border */
+
+  /* Adding a pop-up animation */
+  animation: pop-up 0.5s ease-in-out forwards;
 }
 
-
+@keyframes pop-up {
+  0% {
+    transform: scale(0.8) rotate(45deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(45deg);
+    opacity: 1;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
