@@ -94,7 +94,7 @@ function App() {
         />
       )}
 
-      {response && <Motivation key={motivationKey} />}
+      {response && <Motivation key={motivationKey} emote={response.emotion} />}
     </div>
   );
 }

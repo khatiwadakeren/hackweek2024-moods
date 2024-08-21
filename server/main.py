@@ -102,9 +102,9 @@ async def get_gif(request: TicketRequest):
         
 def get_emotion(emote: str) -> str:
     # Define broader sets of synonyms for each emotion
-    angry_synonyms = {"angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant"}
-    happy_synonyms = {"happy", "joyful", "cheerful", "content", "pleased", "delighted", "ecstatic", "glad", "satisfied", "joyous"}
-    neutral_synonyms = {"neutral", "indifferent", "unemotional", "calm", "dispassionate", "impartial"}
+    angry_synonyms = {"angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant", "anger", "sadness"}
+    happy_synonyms = {"happy", "joyful", "cheerful", "content", "pleased", "delighted", "ecstatic", "glad", "satisfied", "joyous", "joy"}
+    neutral_synonyms = {"neutral", "indifferent", "unemotional", "calm", "dispassionate", "impartial", "surprise"}
 
     # Convert emote to lowercase and get its WordNet synsets
     emote_lower = emote.lower()
