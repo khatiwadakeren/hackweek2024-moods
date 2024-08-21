@@ -3,10 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from dotenv import load_dotenv # type: ignore
 from transformers import pipeline
 from pydantic import BaseModel
+from nltk.corpus import wordnet as wn
 import httpx # type: ignore
 import os
 import random
+import nltk
 
+nltk.download('wordnet')
 load_dotenv()
 
 search_term = "angry"
@@ -42,6 +45,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class EmoteRequest(BaseModel):
+    emote: str
 
 @app.get("/")
 async def root():
@@ -93,3 +99,45 @@ async def get_gif(request: TicketRequest):
                     raise HTTPException(status_code=404, detail="No embed URL found for GIF")
         else:
             raise HTTPException(status_code=response.status_code, detail="Failed to fetch GIFs from Giphy")
+        
+def get_emotion(emote: str) -> str:
+    # Define broader sets of synonyms for each emotion
+    angry_synonyms = {"angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant"}
+    happy_synonyms = {"happy", "joyful", "cheerful", "content", "pleased", "delighted", "ecstatic", "glad", "satisfied", "joyous"}
+    neutral_synonyms = {"neutral", "indifferent", "unemotional", "calm", "dispassionate", "impartial"}
+
+    # Convert emote to lowercase and get its WordNet synsets
+    emote_lower = emote.lower()
+
+    # Direct check for known synonyms
+    if emote_lower in angry_synonyms:
+        return "angry"
+    elif emote_lower in happy_synonyms:
+        return "happy"
+    elif emote_lower in neutral_synonyms:
+        return "neutral"
+
+    # Fallback to WordNet synonym check
+    emote_synsets = wn.synsets(emote_lower)
+
+    for synset in emote_synsets:
+        for lemma in synset.lemmas():
+            lemma_name = lemma.name().lower()
+            if lemma_name in angry_synonyms:
+                return "angry"
+            elif lemma_name in happy_synonyms:
+                return "happy"
+            elif lemma_name in neutral_synonyms:
+                return "neutral"
+
+    # Default to neutral if no matches found
+    return "neutral"
+
+@app.post("/api/emotion-check/")
+async def emotion_check(emote_request: EmoteRequest):
+    emote = emote_request.emote
+    if not emote:
+        raise HTTPException(status_code=400, detail="Missing 'emote' parameter")
+
+    detected_emotion = get_emotion(emote)
+    return {"emotion": detected_emotion}
