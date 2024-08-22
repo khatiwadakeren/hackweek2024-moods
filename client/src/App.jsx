@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
+import TicketDisplay from "./components/TicketDisplay";
 import data01Happy from "../../seeds/01happy.json";
 import data01Neutral from "../../seeds/01neutral.json";
 import data01Upset from "../../seeds/01upset.json";
@@ -12,6 +13,7 @@ import data03Upset from "../../seeds/03upset.json";
 import dataHappy from "../../seeds/happy.json";
 import dataNeutral from "../../seeds/neutral.json";
 import dataUpset from "../../seeds/upset.json";
+import Motivation from "./components/Motivation";
 
 const seeds = [
   data01Happy,
@@ -39,6 +41,7 @@ function App() {
   const [ticketBody, setTicketBody] = useState(""); // State to store the ticket body
   const [soundUrl, setSoundUrl] = useState("");
   const audioRef = useRef(null);
+  const [motivationKey, setMotivationKey] = useState(0); 
 
   const postTicketData = async () => {
     const url = "http://127.0.0.1:8000/api/detect-mood";
@@ -53,10 +56,8 @@ function App() {
       const randomTicket = getRandomTicket();
       console.log("Ticket:", randomTicket);
 
-      const title = randomTicket.ticket.subject;
-      const bodyText = randomTicket.ticket.comment.body;
       const payload = {
-        ticket_body: bodyText,
+        ticket_body: randomTicket.ticket.comment.body,
       };
 
       console.log("Payload:", payload); // Ensure this logs the correct format
@@ -79,10 +80,14 @@ function App() {
       const fullSoundUrl = `http://127.0.0.1:8000${result.sound_url}`;
 
       // Update the state with the response, title, and body
-      setResponse(result);
-      setTicketTitle(title);
-      setTicketBody(bodyText);
+      setResponse({
+        ...result,
+        ticketTitle: randomTicket.ticket.subject,
+        ticketBody: randomTicket.ticket.comment.body,
+      });
+      setMotivationKey(prevKey => prevKey + 1);
       setSoundUrl(fullSoundUrl);
+
     } catch (error) {
       console.error("WHOMP: ", error);
     }
@@ -103,21 +108,15 @@ function App() {
       <button onClick={postTicketData}>Anyone got tickets?</button>
 
       {response && (
-        <div>
-          <h2>Ticket Title: {ticketTitle}</h2>
-          <h3>Emotion Detected: {response.emotion}</h3>
-          <iframe
-            src={response.embed_url}
-            width="480"
-            height="270"
-            frameBorder="0"
-            allowFullScreen
-            title="GIF"
-          ></iframe>
-          {/* no body for now */}
-          {/* <p style={{ marginTop: "20px" }}>Ticket Body: {ticketBody}</p> */}
-        </div>
+        <TicketDisplay
+          ticketTitle={response.ticketTitle}
+          ticketBody={response.ticketBody}
+          embedUrl={response.embed_url}
+          emotion={response.emotion}
+        />
       )}
+
+      {response && <Motivation key={motivationKey} emote={response.emotion} />}
     </div>
   );
 }
