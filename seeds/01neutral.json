@@ -1,8 +1,0 @@
-{
-  "ticket": {
-    "comment": {
-      "body": "Hello Sentry team, I am using Sentry with Next.js in Tauri, how can i get this to work"
-    },
-    "subject": "Tauri v2"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "ticket": {
-    "comment": {
-      "body": "We love Sentry and explored the user feedback feature, it has the advantage to bring the user info, trace, however we need this in intercom"
-    },
-    "subject": "Intercom"
-  }
-}

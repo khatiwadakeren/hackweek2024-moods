@@ -127,7 +127,7 @@ async def get_gif_and_sound(request: TicketRequest):
     params = {
         "api_key": giphy_api_key,
         "q": emotion,
-        "limit": 10,  # Adjust the limit as needed
+        "limit": 50,  # Adjust the limit as needed
     }
     async with httpx.AsyncClient() as client:
         response = await client.get(api_url, params=params)

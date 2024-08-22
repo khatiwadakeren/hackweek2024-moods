@@ -1,38 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TicketDisplay from "./components/TicketDisplay";
-import data01Happy from "../../seeds/01happy.json";
-import data01Neutral from "../../seeds/01neutral.json";
-import data01Upset from "../../seeds/01upset.json";
-import data02Happy from "../../seeds/02happy.json";
-import data02Neutral from "../../seeds/02neutral.json";
-import data02Upset from "../../seeds/02upset.json";
-import data03Happy from "../../seeds/03happy.json";
-import data03Neutral from "../../seeds/03neutral.json";
-import data03Upset from "../../seeds/03upset.json";
-import dataHappy from "../../seeds/happy.json";
-import dataNeutral from "../../seeds/neutral.json";
-import dataUpset from "../../seeds/upset.json";
+
 import Motivation from "./components/Motivation";
+import data01demo from "../../seeds/01demo.json"
+import data02happy from "../../seeds/02happy.json";
 
 const seeds = [
-  data01Happy,
-  data01Neutral,
-  data01Upset,
-  data02Happy,
-  data02Neutral,
-  data02Upset,
-  data03Happy,
-  data03Neutral,
-  data03Upset,
-  dataHappy,
-  dataNeutral,
-  dataUpset,
+  data01demo,
+  data02happy,
 ];
 
+let currentIndex = 0;
+
 function getRandomTicket() {
-  const randomIndex = Math.floor(Math.random() * seeds.length);
-  return seeds[randomIndex];
+  const ticket = seeds[currentIndex];
+  currentIndex = (currentIndex + 1) % seeds.length; // Reset to 0 after reaching the end
+  return ticket;
 }
 
 function App() {
@@ -45,7 +29,7 @@ function App() {
 
   const postTicketData = async () => {
     // const url = "http://127.0.0.1:8000/api/detect-mood";
-    const url = "http://127.0.0.1:8000/api/detect-mood-v2";
+    const url = "http://127.0.0.1:8000/api/detect-mood";
 
     try {
       // Stop any currently playing audio
@@ -105,8 +89,8 @@ function App() {
 
   return (
     <div>
-      <h1 className="moody-monitor-title">Ticket Moody Monitor</h1>{" "}
-      <button onClick={postTicketData}>Anyone got tickets?</button>
+      <h1 className="moody-monitor-title">Moody Monitor</h1>{" "}
+      <button onClick={postTicketData}>Ticket Time!</button>
       {response && (
         <TicketDisplay
           ticketTitle={response.ticketTitle}

@@ -4,7 +4,7 @@ function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
   const [showBody, setShowBody] = useState(false); // State to control the visibility of the ticket body
   const [santizedBody, setSantizedBody] = useState(ticketBody);
 
-  const wordsToSanitize = ["angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant", "anger", "sadness"];
+  const wordsToSanitize = ["fuck", "angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant", "anger", "sadness"];
   const substituteWord = "😂🤣😜";
 
   const replaceWords = (inputString) => {
@@ -25,11 +25,11 @@ function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
   return (
     <div className="ticket-display-container">
       <div className="ticket-title-container">
-        <h2 className="ticket-title-label">Ticket Title:</h2>
+        <h2 className="ticket-title-label">Title:</h2>
         <p className="ticket-title-text">{ticketTitle}</p>
       </div>
       <div className="emotion-container">
-        <h3 className="emotion-label">Emotion Detected:</h3>
+        <h3 className="emotion-label">Vibe:</h3>
         <p className="emotion-text">{emotion}</p>
       </div>
       <div
@@ -53,7 +53,7 @@ function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
           }}
           onClick={toggleBodyVisibility}
         >
-          {showBody ? "Hide Ticket Content" : "Show Ticket Content"}
+          {showBody ? "Hide Contents" : "Show Contents"}
         </button>
       </div>
       {showBody && <p style={{ marginTop: "20px" }}>{santizedBody}</p>}
