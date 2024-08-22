@@ -37,8 +37,13 @@ function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
           allowFullScreen
           title="GIF"
         ></iframe>
-        <button style={{ marginTop: "10px" }} onClick={toggleBodyVisibility}>
-          {showBody ? "Hide Ticket Body" : "Show Ticket Body"}
+        <button
+          style={{
+            marginTop: "10px",
+          }}
+          onClick={toggleBodyVisibility}
+        >
+          {showBody ? "Hide Ticket Content" : "Show Ticket Content"}
         </button>
       </div>
       {showBody && <p style={{ marginTop: "20px" }}>{ticketBody}</p>}

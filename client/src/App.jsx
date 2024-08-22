@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TicketDisplay from "./components/TicketDisplay";
 import data01Happy from "../../seeds/01happy.json";
@@ -104,9 +104,8 @@ function App() {
 
   return (
     <div>
-      <h1>Moody Monitor</h1>
+      <h1 className="moody-monitor-title">Ticket Moody Monitor</h1>{" "}
       <button onClick={postTicketData}>Anyone got tickets?</button>
-
       {response && (
         <TicketDisplay
           ticketTitle={response.ticketTitle}

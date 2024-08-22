@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #f2f2f2;
+}
+body {
+  background-color: #f2f2f2;
 }
 
 .logo {
@@ -16,6 +20,17 @@
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.moody-monitor-title {
+  background: linear-gradient(
+    to right,
+    rgb(116, 26, 116),
+    rgb(34, 34, 217)
+  ); /* Apply the gradient */
+  -webkit-background-clip: text; /* Clip the background to the text */
+  -webkit-text-fill-color: transparent; /* Make the text itself transparent */
+  font-size: 2.5em; /* Optional: Increase the font size for better visibility */
 }
 
 @keyframes logo-spin {
@@ -77,8 +92,8 @@
 
 /* Common button styles */
 button {
-  background-color: #007bff; /* Blue button color */
-  color: white;
+  background-color: rgb(116, 26, 116) !important;
+  color: whitesmoke;
   border: none;
   padding: 10px 20px;
   border-radius: 4px;
@@ -88,24 +103,25 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: rgb(57, 57, 194) !important;
 }
 
 /* Ticket Display Container */
 .ticket-display-container {
-  background-color: #f9f9f9; /* Light background color */
+  background-color: whitesmoke; /* Light background color */
   color: #333; /* Darker text color for contrast */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
+  width: 600px;
   margin: 20px auto; /* Center the component horizontally */
   text-align: center; /* Center all text inside the container */
+  min-height: 400px; /* Ensure the container doesn't resize */
 }
 
 .ticket-title-container,
 .emotion-container {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .ticket-title-label,
