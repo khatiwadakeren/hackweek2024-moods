@@ -32,7 +32,7 @@ Create `.env` file with `giphy_api_key=`
 ## Running the app
 
 Start the server using `uvicorn main:app`.  
-Serve the client-side application with npm (e.g., `npm start`).
+Serve the client-side application with npm (e.g., `npm run dev`).
 
 ## To test the the Mood clasification
 
