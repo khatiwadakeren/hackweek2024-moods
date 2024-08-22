@@ -2,10 +2,20 @@ import React, { useState, useEffect } from "react";
 
 function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
   const [showBody, setShowBody] = useState(false); // State to control the visibility of the ticket body
+  const [santizedBody, setSantizedBody] = useState(ticketBody);
+
+  const wordsToSanitize = ["angry", "mad", "furious", "irate", "enraged", "annoyed", "outraged", "livid", "resentful", "indignant", "anger", "sadness"];
+  const substituteWord = "😂🤣😜";
+
+  const replaceWords = (inputString) => {
+    const regex = new RegExp(`\\b(${wordsToSanitize.join('|')})\\b`, 'gi');
+    return inputString.replace(regex, substituteWord);
+  };
 
   // Reset showBody state whenever ticketBody changes
   useEffect(() => {
     setShowBody(false);
+    setSantizedBody(replaceWords(ticketBody));
   }, [ticketBody]);
 
   const toggleBodyVisibility = () => {
@@ -46,7 +56,7 @@ function TicketDisplay({ ticketTitle, ticketBody, embedUrl, emotion }) {
           {showBody ? "Hide Ticket Content" : "Show Ticket Content"}
         </button>
       </div>
-      {showBody && <p style={{ marginTop: "20px" }}>{ticketBody}</p>}
+      {showBody && <p style={{ marginTop: "20px" }}>{santizedBody}</p>}
     </div>
   );
 }

@@ -44,7 +44,8 @@ function App() {
   const [motivationKey, setMotivationKey] = useState(0); 
 
   const postTicketData = async () => {
-    const url = "http://127.0.0.1:8000/api/detect-mood";
+    // const url = "http://127.0.0.1:8000/api/detect-mood";
+    const url = "http://127.0.0.1:8000/api/detect-mood-v2";
 
     try {
       // Stop any currently playing audio
