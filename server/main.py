@@ -2,10 +2,13 @@ from fastapi import FastAPI, Query, HTTPException # type: ignore
 from fastapi.middleware.cors import CORSMiddleware # type: ignore
 from dotenv import load_dotenv # type: ignore
 from transformers import pipeline
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from pathlib import Path
 import httpx # type: ignore
 import os
 import random
+import glob
 
 load_dotenv()
 
@@ -18,8 +21,21 @@ sentiment_model = pipeline("sentiment-analysis", model="distilbert-base-uncased-
 # Load the emotion detection model
 emotion_model = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=False)
 
+# Map moods to sound directories
+sound_effect_directories = {
+    "anger": "sounds/anger/",
+    "joy": "sounds/joy/",
+    "neutral": "sounds/neutral/",
+    "sadness": "sounds/sadness/",
+    "surprise": "sounds/surprise/",
+    "happy": "sounds/happy/"
+}
 
 app = FastAPI()
+
+# Serve the sounds directory as static files
+app.mount("/sounds", StaticFiles(directory=str(Path(__file__).parent / "sounds")), name="sounds")
+print(str(Path(__file__).parent / "sounds"))
 
 # Defines a model for the request body
 class TicketRequest(BaseModel):
@@ -65,12 +81,40 @@ async def analyze_sentiment(request: TicketRequest):
 
     return {"sentiment": sentiment}
 
-#this is the endpoint to test the model, this returns the mood as well as a gif url
+# Main endpoint: Detect mood and return both the GIF URL and sound URL
 @app.post("/api/detect-mood")
-async def get_gif(request: TicketRequest):
-    result = await analyze_emotion(request)
-    print(TicketRequest)
-    emotion = result["emotion"]
+async def get_gif_and_sound(request: TicketRequest):
+
+    result = emotion_model(request.ticket_body)[0]
+    emotion = result['label'].lower()
+
+    # Get the sound effect based on the emotion
+    sound_dir = Path(__file__).parent / sound_effect_directories.get(emotion, "server/sounds/default/")
+    if sound_dir.exists():
+        print(f"Directory exists: {sound_dir}")
+        print(f"Files in directory: {os.listdir(sound_dir)}")
+    else:
+        print(f"Directory does not exist: {sound_dir}")
+
+    sound_files = glob.glob(str(sound_dir / "*.mp3"))
+
+    print(f"Sound files found: {sound_files}")
+
+    sound_url = None  # Initialize sound_url as None
+    default_sounds = []  # Initialize default_sounds as an empty list
+
+    if sound_files:
+        sound_url = f"/sounds/{emotion}/{os.path.basename(random.choice(sound_files))}"
+        print(f"Sound file found: {sound_url}")
+    else:
+        # Fallback in case no sounds are found
+        default_sounds = glob.glob(str(Path(__file__).parent / "sounds/default/*.mp3"))
+    print(f"Default sound files: {default_sounds}")
+    if default_sounds:
+        sound_url = f"/sounds/default/{os.path.basename(random.choice(default_sounds))}"
+        print(f"Using default sound: {sound_url}")
+    else:
+        print("No sound files found in either primary or default directories.")
 
     api_url = f"https://api.giphy.com/v1/gifs/search"
     params = {
@@ -88,8 +132,8 @@ async def get_gif(request: TicketRequest):
                 random.shuffle(gifs)
                 embed_url = gifs[0].get("embed_url")
                 if embed_url:
-                    return {"emotion": emotion, "embed_url": embed_url}
+                    return {"emotion": emotion, "embed_url": embed_url,"sound_url": sound_url}
                 else:
                     raise HTTPException(status_code=404, detail="No embed URL found for GIF")
         else:
-            raise HTTPException(status_code=response.status_code, detail="Failed to fetch GIFs from Giphy")
+            raise HTTPException(status_code=response.status_code, detail="Failed to fetch GIFs from Giphy") 

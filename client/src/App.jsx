@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import data01Happy from "../../seeds/01happy.json";
 import data01Neutral from "../../seeds/01neutral.json";
@@ -37,11 +37,19 @@ function App() {
   const [response, setResponse] = useState(null); // State to store the API response
   const [ticketTitle, setTicketTitle] = useState(""); // State to store the ticket title
   const [ticketBody, setTicketBody] = useState(""); // State to store the ticket body
+  const [soundUrl, setSoundUrl] = useState("");
+  const audioRef = useRef(null);
 
   const postTicketData = async () => {
     const url = "http://127.0.0.1:8000/api/detect-mood";
 
     try {
+      // Stop any currently playing audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+
       const randomTicket = getRandomTicket();
       console.log("Ticket:", randomTicket);
 
@@ -68,14 +76,26 @@ function App() {
       const result = await response.json();
       console.log("It worked: ", result);
 
+      const fullSoundUrl = `http://127.0.0.1:8000${result.sound_url}`;
+
       // Update the state with the response, title, and body
       setResponse(result);
       setTicketTitle(title);
       setTicketBody(bodyText);
+      setSoundUrl(fullSoundUrl);
     } catch (error) {
       console.error("WHOMP: ", error);
     }
   };
+
+  // Play the audio whenever the soundUrl changes
+  useEffect(() => {
+    if (soundUrl) {
+      const audio = new Audio(soundUrl);
+      audioRef.current = audio;
+      audio.play();
+    }
+  }, [soundUrl]);
 
   return (
     <div>
